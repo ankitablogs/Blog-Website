@@ -9,10 +9,7 @@ const userRouter = require('./Route/User');
 require('dotenv').config();
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173', // For local development
-      'https://ankitablogs.vercel.app/' // Replace with your Vercel frontend URL
-    ],
+    origin: '*',
     credentials: true,
   })
 );
