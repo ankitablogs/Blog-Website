@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/ProtectedPage"
 import PublicRoute from "./components/PublicPage"
 import axios from 'axios';
 import { useEffect } from "react"
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 function App() {
 
