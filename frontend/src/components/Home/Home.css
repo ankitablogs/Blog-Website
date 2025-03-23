@@ -1,0 +1,54 @@
+.home {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.home > *:first-child {
+    flex-grow: 0;
+  }
+
+
+.bodyContainer {
+    flex-grow: 1;
+    overflow: hidden;
+    
+}
+
+.leftComponent {
+    background-color: #ae6cff54;
+    display: flex;
+    padding: 10px;
+}
+
+.rightComponent {
+    display: flex;
+    overflow-y: auto;
+    flex-grow: 1;
+    height: 100%;
+    background-color: rgb(223, 222, 222);
+}
+
+.imageAndNameContainer {
+    display: flex;
+}
+
+.image {
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    width: 140px;
+    height: 150px;
+    border: 3px solid #ffffffe7;
+    object-fit: fill;
+
+    
+}
+
+.imagePaper {
+    border-radius: 50% !important;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,30 @@
+.cardContainer {
+    /* background-color: #f2e9fd !important; */
+    margin: 15px 20px;
+    padding: 10px 20px;
+    border: 3px solid #943cff65;
+    border-radius: 10px !important;
+    gap: 10px;
+    position: relative;
+    height: 250px;
+}
+.blogImage {
+    aspect-ratio: 1/1;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}   
+
+.cardDescriptionContainer {
+    height: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardFooter {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 2;
+}
