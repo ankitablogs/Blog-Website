@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "index.html",
+        "src": "dist/index.html",
         "use": "@vercel/static-build",
         "config": {
           "distDir": "dist"
@@ -18,7 +18,8 @@
       },
       {
         "src": "/(.*)",
-        "dest": "/index.html"
+        "dest": "/index.html",
+        "status": 200
       }
     ]
   }
