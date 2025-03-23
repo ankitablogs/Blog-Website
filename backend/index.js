@@ -5,11 +5,23 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const blogRouter = require('./Route/Blog');
 const userRouter = require('./Route/User');
+const allowedOrigins = [
+  'https://ankitablogs.vercel.app', // Deployed frontend
+  'http://localhost:3000' // Local development
+];
+
 app.use(
   cors({
-    origin: 'https://ankitablogs.vercel.app', // Frontend URL
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl requests, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
   })
 );
