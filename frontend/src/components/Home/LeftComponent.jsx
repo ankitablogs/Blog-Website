@@ -12,7 +12,7 @@ const LeftComponent = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('https://blog-backend-psi.vercel.app/user/profile');
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}user/profile`);
       setData(response.data);
 
     } catch (error) {

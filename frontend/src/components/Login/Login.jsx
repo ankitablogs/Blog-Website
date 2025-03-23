@@ -15,7 +15,7 @@ const Login = () => {
 
     const loginUser = async() => {
         try {
-            const response = await axios.post('http://localhost:3000/user/login', data);
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URI}user/login`, data);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('tokenTimestamp', new Date().getTime());
             navigate('/');

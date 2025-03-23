@@ -170,7 +170,7 @@ export default function PrimarySearchAppBar({searchTerm, setSearchTerm}) {
 
   const logoutUser = async() => {
     try {
-      const response = await axios.post('http://localhost:3000/user/logout');
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URI}user/logout`);
       localStorage.removeItem('token');
       navigate('/');
     } catch (error) {

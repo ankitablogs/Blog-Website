@@ -15,7 +15,7 @@ const Home = () => {
   async function getBlogs(searchTerm) {
     console.log('called');
     try {
-      const res = await axios.get(`http://localhost:3000/blog/list/?search=${searchTerm}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URI}blog/list/?search=${searchTerm}`);
       setBlogs(res.data);
     } catch (error) {
       console.log(error);

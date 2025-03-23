@@ -14,7 +14,7 @@ const BlogCard = ({blog, handleBlogClick}) => {
         setIsLiked(true);
         setLikeCount(likeCount + 1);
         try {
-            await axios.put(`http://localhost:3000/blog/like/${blog._id}`);
+            await axios.put(`${import.meta.env.VITE_BACKEND_URI}blog/like/${blog._id}`);
         } catch (error) {
             console.log(error);
             setIsLiked(false);

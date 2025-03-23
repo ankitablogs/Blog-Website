@@ -17,7 +17,7 @@ const Admin = () => {
 
   const updateProfile = async() => {
     try {
-      const response = await axios.put('http://localhost:3000/user/profile', data, {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URI}user/profile`, data, {
         withCredentials: true
     });
       setMessage(response.data);
@@ -29,7 +29,7 @@ const Admin = () => {
 
   const getBlogs = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/blog/list');
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URI}blog/list`);
       setBlogs(res.data);
     } catch (error) {
       console.log(error);
@@ -41,7 +41,7 @@ const Admin = () => {
   }
 
   const deleteBlog = async (id) => {
-    const response = await axios.delete(`http://localhost:3000/blog/${id}`);
+    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URI}blog/${id}`);
     setMessage(response.data);
     getBlogs();
   }
@@ -54,7 +54,7 @@ const Admin = () => {
   useEffect(() => {
     const fetchData = async() => {
       try {
-        const response = await axios.get('http://localhost:3000/user/profile');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}user/profile`);
         setData(response.data);
       } catch (error) {
         console.log(error);

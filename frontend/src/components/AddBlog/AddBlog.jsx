@@ -35,7 +35,7 @@ const AddBlog = () => {
 
     const getBlog = async () => {
         try {
-            const res = await axios.get(`http://localhost:3000/blog/${id}`);
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URI}blog/${id}`);
             setHeading(res.data.heading);
             setQuillContent(res.data.content);
             setImg(res.data.img);
@@ -60,14 +60,14 @@ const AddBlog = () => {
     const submitBlog = async () => {
         try {
             if(id) {
-                await axios.put(`http://localhost:3000/blog/${id}`, {
+                await axios.put(`${import.meta.env.VITE_BACKEND_URI}blog/${id}`, {
                     heading: heading,
                     content: quillContent, // Use quillContent instead of content
                     img: img,
                 });
                 setMessage('Blog updated successfully');
             } else {
-                await axios.post('http://localhost:3000/blog/admin/add', {
+                await axios.post(`${import.meta.env.VITE_BACKEND_URI}blog/admin/add`, {
                     heading: heading,
                     content: quillContent, // Use quillContent instead of content
                     img: img,

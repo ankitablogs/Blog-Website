@@ -18,7 +18,7 @@ const BlogPage = () => {
         setIsLiked(true);
         setLikeCount(likeCount + 1);
         try {
-            await axios.put(`http://localhost:3000/blog/like/${blog._id}`);
+            await axios.put(`${import.meta.env.VITE_BACKEND_URI}blog/like/${blog._id}`);
         } catch (error) {
             console.log(error);
             setIsLiked(false);
@@ -28,7 +28,7 @@ const BlogPage = () => {
 
   const fetchBlog = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3000/blog/${id}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}blog/${id}`);
       setBlog(response.data);
       setLikeCount(response.data.likeCount);
     } catch (error) {
