@@ -1,6 +1,11 @@
 const Blog = require('../Model/blogModal');
 const jwt = require('jsonwebtoken');
 const getAllBlogs = async (req, res) => {
+
+  res.json("Hello World from all blogs");
+  return;
+
+
   const searchTerm = req.query.search || '';
 
   try {
