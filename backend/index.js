@@ -9,9 +9,7 @@ const userRouter = require('./Route/User');
 require('dotenv').config();
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://ankitablogs.vercel.app'],
-  credentials: true, // Allow credentials (cookies)
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all necessary methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Allow necessary headers
+  credentials: true
 };
 
 app.use(cors(corsOptions));
