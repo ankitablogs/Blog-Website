@@ -12,7 +12,7 @@ const getProfileData = async (req, res) => {
 }
 
 const updateProfileData = async (req, res) => {
-    res.json("Hello World", req?.cookies?.token);
+    res.json(`Hello World ${req?.cookies?.token}`);
     return;
     
     try {
