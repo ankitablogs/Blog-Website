@@ -5,12 +5,16 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const blogRouter = require('./Route/Blog');
 const userRouter = require('./Route/User');
+app.use(
+  cors({
+    origin: 'https://ankitablogs.vercel.app', // Frontend URL
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  })
+);
 
 require('dotenv').config();
-app.use(cors({
-  origin: 'https://ankitablogs.vercel.app',
-  credentials: true
-}));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
