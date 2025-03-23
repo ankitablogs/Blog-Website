@@ -7,7 +7,13 @@ const blogRouter = require('./Route/Blog');
 const userRouter = require('./Route/User');
 
 require('dotenv').config();
-app.use(cors());
+app.use(cors(
+  {
+    origin: ['http://localhost:5173', 'https://ankitablogs.vercel.app'],
+    credentials: true
+  }
+));
+app.options('*', cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
