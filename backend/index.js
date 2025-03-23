@@ -7,12 +7,7 @@ const blogRouter = require('./Route/Blog');
 const userRouter = require('./Route/User');
 
 require('dotenv').config();
-app.use(
-  cors({
-    origin: '*',
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
