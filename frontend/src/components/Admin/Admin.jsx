@@ -17,9 +17,7 @@ const Admin = () => {
 
   const updateProfile = async() => {
     try {
-      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URI}user/profile`, data, {
-        withCredentials: true
-    });
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URI}user/profile`, data);
       setMessage(response.data);
     } catch (error) {
       console.log(error);
