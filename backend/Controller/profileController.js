@@ -45,9 +45,9 @@ try {
 
         // Set token as a cookie
         res.cookie('token', token, {
-            httpOnly: false, // Make the cookie accessible via JavaScript
-            secure: false,   // Set to true if using HTTPS
-            sameSite: 'Strict', // Allow cross-site requests (for testing)
+            httpOnly: true, // Make the cookie accessible via JavaScript
+            secure: true,   // Set to true if using HTTPS
+            sameSite: 'none', // Allow cross-site requests (for testing)
             maxAge: 1000 * 60 * 60 * 24,
           });
 
