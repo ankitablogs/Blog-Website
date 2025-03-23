@@ -72,11 +72,10 @@ try {
 
 const logoutUser = async (req, res) => {
     res.cookie('token', '', {
-        httpOnly: false, // Make the cookie accessible via JavaScript
-        secure: false,   // Set to true if using HTTPS
+        httpOnly: true, // Make the cookie accessible via JavaScript
+        secure: true,   // Set to true if using HTTPS
         sameSite: 'none', // Allow cross-site requests (for testing)
         maxAge: 0,
-        path: '/',
       });
     res.json({
         message: 'Logout successful!'
