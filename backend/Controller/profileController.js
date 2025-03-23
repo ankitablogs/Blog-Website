@@ -12,6 +12,8 @@ const getProfileData = async (req, res) => {
 }
 
 const updateProfileData = async (req, res) => {
+    res.json(req?.cookies?.token);
+    return;
     
     try {
         const token = req.cookies.token;
