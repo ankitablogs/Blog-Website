@@ -72,7 +72,7 @@ const logoutUser = async (req, res) => {
     res.cookie('token', '', {
         httpOnly: false, // Make the cookie accessible via JavaScript
         secure: false,   // Set to true if using HTTPS
-        sameSite: 'Strict', // Allow cross-site requests (for testing)
+        sameSite: 'none', // Allow cross-site requests (for testing)
         maxAge: 0,
         path: '/',
       });
