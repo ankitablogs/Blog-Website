@@ -8,7 +8,7 @@ const userRouter = require('./Route/User');
 
 require('dotenv').config();
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://ankitablogs.vercel.app'],
+  origin: ['http://localhost:5173', 'https://heralchemybyankitapnick.vercel.app/'],
   credentials: true
 };
 
