@@ -44,7 +44,6 @@ const LeftComponent = () => {
         </div>
         <Typography variant='h5' className='name'>{data?.name}</Typography>
         <Typography>Email : {data?.email}</Typography>
-        <Typography>Date of Birth : {data?.dob}</Typography>
 
         <Typography>Bio : {data?.bio}</Typography>
     

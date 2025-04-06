@@ -83,9 +83,6 @@ console.log(blogs)
         <TextField label="Email" variant="outlined" name='email' onChange={handleChange} value={data?.email} InputLabelProps={{
     shrink: true,
   }}/>
-        <TextField label="Date of Birth" variant="outlined" name='dob' onChange={handleChange} value={data?.dob} InputLabelProps={{
-    shrink: true,
-  }}/>
         <TextField label="Bio" variant="outlined" name='bio' onChange={handleChange} value={data?.bio} InputLabelProps={{
     shrink: true,
   }}/>

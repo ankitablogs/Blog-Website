@@ -187,9 +187,9 @@ export default function PrimarySearchAppBar({searchTerm, setSearchTerm}) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block', wordSpacing: '5px' } }}
           >
-            ANKITA'S BLOG
+            HER ALCHEMY
           </Typography>
           <Search>
             <SearchIconWrapper>
