@@ -6,34 +6,24 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
-  left: '15rem',
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  margin: '0 auto',
   width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
+  maxWidth: '600px',
   borderRadius: '20px',
 }));
 
@@ -51,181 +41,200 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '70ch',
+    fontSize: theme.typography.pxToRem(14), // Reduced base font size for input
+    [theme.breakpoints.up('sm')]: {
+      fontSize: theme.typography.pxToRem(16), // Normal size for larger screens
     },
   },
 }));
 
-export default function PrimarySearchAppBar({searchTerm, setSearchTerm}) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+export default function PrimarySearchAppBar({ searchTerm, setSearchTerm }) {
+  const [mobileActionsAnchorEl, setMobileActionsAnchorEl] = React.useState(null);
+  const isMobileActionsOpen = Boolean(mobileActionsAnchorEl);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleMobileActionsOpen = (event) => {
+    setMobileActionsAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const handleMobileActionsClose = () => {
+    setMobileActionsAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
   const navigate = useNavigate();
 
   const moveToLogin = () => {
     navigate('/admin/login');
-  }
+    handleMobileActionsClose();
+  };
 
   const moveToEditPage = () => {
     navigate('/admin/home');
-  }
+    handleMobileActionsClose();
+  };
 
-  const logoutUser = async() => {
+  const logoutUser = async () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URI}user/logout`);
       localStorage.removeItem('token');
       navigate('/');
+      handleMobileActionsClose();
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
   const isLoggedIn = localStorage.getItem('token');
+
+  const renderMobileActionsMenu = (
+    <Menu
+      anchorEl={mobileActionsAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id="mobile-actions-menu"
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileActionsOpen}
+      onClose={handleMobileActionsClose}
+    >
+      {isLoggedIn && (
+        <MenuItem onClick={moveToEditPage}>
+          Edit
+        </MenuItem>
+      )}
+      {isLoggedIn ? (
+        <MenuItem onClick={logoutUser}>
+          Logout
+        </MenuItem>
+      ) : (
+        <MenuItem onClick={moveToLogin}>
+          Admin Login
+        </MenuItem>
+      )}
+    </Menu>
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#ae6cff' }}>
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          {/* Brand name - with responsive font size */}
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block', wordSpacing: '5px' } }}
+            sx={{ 
+              display: 'block',
+              wordSpacing: '5px',
+              minWidth: { xs: '90px', sm: '120px' },
+              flexShrink: 0,
+              fontSize: { xs: '1rem', sm: '1.25rem' } // Responsive font sizing
+            }}
           >
             HER ALCHEMY
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              value={searchTerm}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex', gap: 15 } }}>
-            {isLoggedIn && <Button variant="outlined" color='' onClick={moveToEditPage} sx={{borderRadius: '20px'}}>Edit</Button>}
-           {isLoggedIn ? <Button variant="outlined" color='' onClick={logoutUser} sx={{borderRadius: '20px'}}>Logout</Button> :
-           
-           
-           <Button variant="outlined" color='' onClick={moveToLogin} sx={{borderRadius: '20px'}}>Admin</Button>}
+
+          {/* Centered search bar */}
+          <Box sx={{ 
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'center',
+            px: { xs: 1, sm: 2 }, // Smaller padding on mobile
+            maxWidth: 'md'
+          }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+              />
+            </Search>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+
+          {/* Right-aligned actions */}
+          <Box sx={{ 
+            display: { xs: 'none', md: 'flex' },
+            gap: 2,
+            alignItems: 'center',
+            minWidth: '120px',
+            justifyContent: 'flex-end'
+          }}>
+            {isLoggedIn && (
+              <Button 
+                variant="outlined" 
+                onClick={moveToEditPage} 
+                sx={{ 
+                  borderRadius: '20px', 
+                  color: 'white', 
+                  borderColor: 'white',
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' } // Responsive button text
+                }}
+              >
+                Edit
+              </Button>
+            )}
+            {isLoggedIn ? (
+              <Button 
+                variant="outlined" 
+                onClick={logoutUser} 
+                sx={{ 
+                  borderRadius: '20px', 
+                  color: 'white', 
+                  borderColor: 'white',
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' } // Responsive button text
+                }}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button 
+                variant="outlined" 
+                onClick={moveToLogin} 
+                sx={{ 
+                  borderRadius: '20px', 
+                  color: 'white', 
+                  borderColor: 'white',
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' } // Responsive button text
+                }}
+              >
+                Admin
+              </Button>
+            )}
+          </Box>
+
+          {/* Mobile actions menu (three dots) */}
+          <Box sx={{ 
+            display: { xs: 'flex', md: 'none' },
+            minWidth: '40px'
+          }}>
             <IconButton
               size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              aria-label="show actions"
               color="inherit"
+              onClick={handleMobileActionsOpen}
+              sx={{
+                padding: { xs: '8px', sm: '12px' } // Smaller padding on mobile
+              }}
             >
-              <MoreIcon />
+              <MoreIcon fontSize="small" /> {/* Smaller icon on mobile */}
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      
+      {/* Mobile actions menu */}
+      {renderMobileActionsMenu}
     </Box>
   );
 }

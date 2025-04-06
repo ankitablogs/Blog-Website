@@ -23,7 +23,7 @@
 
 .rightComponent {
     display: flex;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     flex-grow: 1;
     height: 100%;
     background-color: rgb(223, 222, 222);

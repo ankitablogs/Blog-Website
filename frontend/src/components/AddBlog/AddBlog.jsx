@@ -1,8 +1,8 @@
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
-import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 import { useNavigate, useParams } from 'react-router';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -11,22 +11,39 @@ const AddBlog = () => {
     const [heading, setHeading] = useState('');
     const [message, setMessage] = useState('');
     const [img, setImg] = useState('');
-    const [quillContent, setQuillContent] = useState(''); // State variable for Quill content
-
-    const quillRef = useRef(null); // Reference for the Quill editor
+    const [quillContent, setQuillContent] = useState('');
+    const quillRef = useRef(null);
     const [editor, setEditor] = useState(null);
     const navigate = useNavigate();
+    const isMobile = useMediaQuery('(max-width:600px)');
 
     useEffect(() => {
         if (quillRef.current && !editor) {
             const quillInstance = new Quill(quillRef.current, {
                 theme: "snow",
                 placeholder: 'Write something amazing...',
-
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'header': 1 }, { 'header': 2 }],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'script': 'sub'}, { 'script': 'super' }],
+                        [{ 'indent': '-1'}, { 'indent': '+1' }],
+                        [{ 'direction': 'rtl' }],
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
+                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        [{ 'color': [] }, { 'background': [] }],
+                        [{ 'font': [] }],
+                        [{ 'align': [] }],
+                        ['clean'],
+                        ['link', 'image', 'video']
+                    ]
+                }
             });
 
             quillInstance.on('text-change', () => {
-                setQuillContent(quillInstance.root.innerHTML); // Update quillContent state with HTML content
+                setQuillContent(quillInstance.root.innerHTML);
             });
 
             setEditor(quillInstance);
@@ -40,7 +57,7 @@ const AddBlog = () => {
             setQuillContent(res.data.content);
             setImg(res.data.img);
             if (editor) {
-                editor.clipboard.dangerouslyPasteHTML(res.data.content); // Prepopulate Quill content
+                editor.clipboard.dangerouslyPasteHTML(res.data.content);
             }
         } catch (error) {
             console.log(error);
@@ -62,20 +79,20 @@ const AddBlog = () => {
             if(id) {
                 await axios.put(`${import.meta.env.VITE_BACKEND_URI}blog/${id}`, {
                     heading: heading,
-                    content: quillContent, // Use quillContent instead of content
+                    content: quillContent,
                     img: img,
                 });
                 setMessage('Blog updated successfully');
             } else {
                 await axios.post(`${import.meta.env.VITE_BACKEND_URI}blog/admin/add`, {
                     heading: heading,
-                    content: quillContent, // Use quillContent instead of content
+                    content: quillContent,
                     img: img,
                 });
                 setMessage('Blog added successfully');
             }
             
-            navigate('/');
+            navigate('/admin/home');
         } catch (error) {
             console.log(error);
             setMessage('Failed to add blog');
@@ -83,33 +100,89 @@ const AddBlog = () => {
     };
 
     return (
-        <Stack padding={15}>
-            <Button variant="contained" color="secondary" sx={{width: '80px', position: 'absolute', left: 10, top: 10}} onClick={goBack}><ArrowBackIcon sx={{marginRight: 0.2}}/>Back</Button>
+        <Box sx={{ 
+            padding: isMobile ? '16px 8px' : '24px 16px',
+            maxWidth: '1200px',
+            margin: '0 auto',
+            position: 'relative'
+        }}>
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                mb: 3
+            }}>
+                <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    onClick={goBack}
+                    sx={{
+                        minWidth: 'auto',
+                        padding: '6px 12px'
+                    }}
+                >
+                    <ArrowBackIcon sx={{ marginRight: 0.5 }} />
+                    Back
+                </Button>
+                <Typography variant="h6" component="h1">
+                    {id ? 'Edit Blog' : 'Add New Blog'}
+                </Typography>
+            </Box>
         
-            <TextField
-                required
-                id="standard-required"
-                label="Heading"
-                variant="standard"
-                value={heading}
-                onChange={(e) => setHeading(e.target.value)}
-                sx={{ marginBottom: '50px' }}
-            />
-            <TextField
-                required
-                id="standard-required"
-                label="Image Url"
-                variant="standard"
-                value={img}
-                onChange={(e) => setImg(e.target.value)}
-                sx={{ marginBottom: '50px' }}
-            />
-            <div ref={quillRef} style={{ height: '300px',
-                marginBottom: '50px'
-             }} />
-            <Button variant="contained" onClick={submitBlog} color='secondary'>Submit</Button>
-            <Typography>{message}</Typography>
-        </Stack>
+            <Stack spacing={3}>
+                <TextField
+                    required
+                    label="Heading"
+                    variant="outlined"
+                    value={heading}
+                    onChange={(e) => setHeading(e.target.value)}
+                    fullWidth
+                />
+                
+                <TextField
+                    required
+                    label="Image URL"
+                    variant="outlined"
+                    value={img}
+                    onChange={(e) => setImg(e.target.value)}
+                    fullWidth
+                />
+                
+                <Box sx={{ 
+                    height: '300px',
+                    '& .ql-toolbar': {
+                        borderTopLeftRadius: '8px',
+                        borderTopRightRadius: '8px'
+                    },
+                    '& .ql-container': {
+                        borderBottomLeftRadius: '8px',
+                        borderBottomRightRadius: '8px',
+                        height: isMobile ? 'calc(100% - 100px)' : 'calc(100% - 52px)',
+                        fontSize: '16px'
+                    }
+                }}>
+                    <div ref={quillRef}/>
+                </Box>
+                
+                {message && (
+                    <Typography 
+                        variant="body2" 
+                        color={message.includes('Failed') ? 'error.main' : 'success.main'}
+                        sx={{ mt: 1}}
+                    >
+                        {message}
+                    </Typography>
+                )}
+                <Button 
+                    variant="contained" 
+                    onClick={submitBlog} 
+                    color='secondary'
+                    size='large'
+                >
+                    Submit
+                </Button>
+            </Stack>
+        </Box>
     );
 };
 

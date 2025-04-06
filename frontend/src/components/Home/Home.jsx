@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import PrimarySearchAppBar from '../Navbar/Navbar'
 import LeftComponent from './LeftComponent'
 import RightComponent from './RightComponent'
-import { Grid2 } from '@mui/material'
+import { Grid2, useMediaQuery } from '@mui/material'
 import './Home.css'
 import axios from 'axios'
 
@@ -10,6 +10,7 @@ import axios from 'axios'
 
 
 const Home = () => {
+  const isMobile = useMediaQuery('(max-width:900px)');
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   async function getBlogs(searchTerm) {
@@ -40,11 +41,17 @@ const Home = () => {
   return (
     <Grid2 className="home">
         <PrimarySearchAppBar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-        <Grid2 container className="bodyContainer">
-            <Grid2  size={{md: 3}} className="leftComponent">
+        <Grid2 container className="bodyContainer" sx={{
+          overflow: isMobile ? 'auto' : 'hidden'
+        }}>
+            <Grid2  size={{md: 3, sx: 12}} className="leftComponent"
+            sx={isMobile ? {height: '100%'} : {}}
+            >
              <LeftComponent/>
             </Grid2>
-            <Grid2 size={{md: 9}} className="rightComponent">
+            <Grid2 size={{md: 9, sx: 12}} className="rightComponent"
+            sx={!isMobile ? {overflowY: 'auto'} : {height: 'auto'}}
+            >
              <RightComponent blogs={blogs}/>
             </Grid2>
         </Grid2>
