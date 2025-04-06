@@ -1,30 +1,54 @@
 .cardContainer {
-    /* background-color: #f2e9fd !important; */
-    margin: 15px 20px;
-    padding: 10px 20px;
+    margin: 15px 10px;
+    padding: 10px 15px;
     border: 3px solid #943cff65;
     border-radius: 10px !important;
-    gap: 10px;
     position: relative;
-    height: 250px;
+    min-height: 250px;
+    height: auto;
 }
+
 .blogImage {
     aspect-ratio: 1/1;
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    max-height: 200px;
     object-fit: cover;
     border-radius: 10px;
 }   
 
 .cardDescriptionContainer {
-    height: 200px;
+    height: auto;
+    max-height: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .cardFooter {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    z-index: 2;
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .cardContainer {
+        height: auto;
+        padding: 8px 12px;
+    }
+    
+    .blogImage {
+        max-width: 100%;
+        max-height: 150px;
+    }
+    
+    .cardDescriptionContainer {
+        max-height: none;
+    }
 }
